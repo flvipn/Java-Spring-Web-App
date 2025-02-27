@@ -2,30 +2,42 @@ package important.controller;
 
 import important.model.Product;
 import important.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    ProductService service;
+    private final ProductService service;
 
-    @RequestMapping("/products")
-    public List<Product> getProducts(){
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public List<Product> getProducts() {
         return service.getProducts();
     }
 
-    @GetMapping("products/{id}")
-    public Product getProductById(@PathVariable("id") int prodId){
-        return service.getProductById(prodId);
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable int id) {
+        return service.getProductById(id);
     }
 
-    @PostMapping("/products")
-    public void addProduct(@RequestBody Product prod){
-        System.out.println(prod);
+    @PostMapping
+    public void addProduct(@RequestBody Product prod) {
         service.addProduct(prod);
+    }
+
+    @PutMapping
+    public void updateProduct(@RequestBody Product prod) {
+        service.updateProduct(prod);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable int id) {
+        service.deleteProduct(id);
     }
 }
