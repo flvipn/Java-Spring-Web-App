@@ -30,6 +30,9 @@ public class ProductService {
         if (repo.findByName(prod.getName()).isPresent()) {
             throw new RuntimeException("Product with name '" + prod.getName() + "' already exists.");
         }
+        if (prod.getThumbnail() == null || prod.getThumbnail().isEmpty()) {
+            prod.setThumbnail("/images/default.jpg"); // Imagine default
+        }
         return repo.save(prod);
     }
 
@@ -37,6 +40,7 @@ public class ProductService {
         Product existingProduct = getProductById(id);
 
         existingProduct.setCategory(updatedProd.getCategory());
+        existingProduct.setBrand(updatedProd.getBrand());
         existingProduct.setName(updatedProd.getName());
         existingProduct.setDescription(updatedProd.getDescription());
         existingProduct.setPrice(updatedProd.getPrice());
@@ -52,4 +56,9 @@ public class ProductService {
         }
         repo.deleteById(prodId);
     }
+
+    public List<Product> getProductsByBrand(String brand) {
+        return repo.findByBrand(brand);
+    }
+
 }

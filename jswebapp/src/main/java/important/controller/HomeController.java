@@ -1,14 +1,22 @@
 package important.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import important.service.ProductService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@RestController
+@Controller
 public class HomeController {
 
-    @RequestMapping("/")
-    public String greet(){
-        return "Test";
+    private final ProductService productService;
+
+    public HomeController(ProductService productService) {
+        this.productService = productService;
     }
 
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        model.addAttribute("products", productService.getProducts());
+        return "home";
+    }
 }

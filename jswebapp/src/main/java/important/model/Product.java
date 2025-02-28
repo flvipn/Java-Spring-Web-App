@@ -17,6 +17,9 @@ public class Product {
     @Column(nullable = false)
     private String category;
 
+    @Column(nullable = false)
+    private String brand;
+
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -30,4 +33,6 @@ public class Product {
 
     @Column(nullable = false)
     private int quantity;
+
+    private String thumbnail;
 }

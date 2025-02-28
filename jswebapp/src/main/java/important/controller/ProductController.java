@@ -4,6 +4,7 @@ import important.model.Product;
 import important.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,4 +45,11 @@ public class ProductController {
         service.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/brand/{brand}")
+    public ResponseEntity<List<Product>> filterProductsByBrand(@PathVariable String brand) {
+        List<Product> filteredProducts = service.getProductsByBrand(brand);
+        return ResponseEntity.ok(filteredProducts);
+    }
+
 }

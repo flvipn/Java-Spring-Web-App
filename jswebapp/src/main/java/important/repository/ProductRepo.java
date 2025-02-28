@@ -14,5 +14,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 
     List<Product> findByAvailableTrue();
 
-    List<Product> findByCategory(String category);
+    List<Product> findByBrand(String brand);
+
+
 }
