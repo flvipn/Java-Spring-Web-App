@@ -4,12 +4,13 @@ import important.model.Product;
 import important.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/products")
 public class ProductController {
 
@@ -22,11 +23,6 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.ok(service.getProducts());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id) {
-        return ResponseEntity.ok(service.getProductById(id));
     }
 
     @PostMapping
@@ -51,5 +47,13 @@ public class ProductController {
         List<Product> filteredProducts = service.getProductsByBrand(brand);
         return ResponseEntity.ok(filteredProducts);
     }
+
+    @GetMapping("/{id}")
+    public String getProductById(@PathVariable int id, Model model) {
+        Product product = service.getProductById(id);
+        model.addAttribute("product", product);
+        return "product"; // Redirecționează către product.html
+    }
+
 
 }

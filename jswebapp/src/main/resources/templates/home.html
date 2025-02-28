@@ -55,10 +55,14 @@
     <h2 class="text-center">Available Sneakers</h2>
     <div class="row" id="productList">
         <div class="col-md-4" th:each="product : ${products}">
-            <div class="card mb-4 shadow-sm" th:attr="data-brand=${product.brand}, data-name=${product.name}">
-                <img th:src="${product.thumbnail} ?: '/images/default.jpg'" class="card-img-top" alt="Sneaker Image">
+            <div class="card mb-4 shadow-sm">
+                <a th:href="@{'/products/' + ${product.id}}">
+                    <img th:src="${product.thumbnail} ?: '/images/default.jpg'" class="card-img-top" alt="Sneaker Image">
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}">Sneaker Name</h5>
+                    <h5 class="card-title">
+                        <a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Sneaker Name</a>
+                    </h5>
                     <p class="card-text" th:text="${product.description}">Sneaker description</p>
                     <p class="fw-bold text-danger">$<span th:text="${product.price}">199.99</span></p>
                     <a href="#" class="btn btn-primary">Add to Cart</a>
