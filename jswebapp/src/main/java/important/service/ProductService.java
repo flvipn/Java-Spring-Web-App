@@ -1,48 +1,55 @@
 package important.service;
 
 import important.model.Product;
+import important.repository.ProductRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
 public class ProductService {
-    private final List<Product> products = new ArrayList<>(List.of(
-            new Product(1, "Jordan 1 UNC Toe", 149.99),
-            new Product(2, "Jordan 3 Black Cement", 219.99),
-            new Product(3, "Jordan 5 Black Metallic", 209.99),
-            new Product(4, "Jordan 4 Bred", 224.99)
-    ));
+
+    private final ProductRepo repo;
+
+    @Autowired
+    public ProductService(ProductRepo repo) {
+        this.repo = repo;
+    }
 
     public List<Product> getProducts() {
-        return products;
+        return repo.findAll();
     }
 
     public Product getProductById(int prodId) {
-        return products.stream()
-                .filter(p -> p.getProdId() == prodId)
-                .findFirst()
+        return repo.findById(prodId)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + prodId));
     }
 
-    public void addProduct(Product prod) {
-        products.add(prod);
+    public Product addProduct(Product prod) {
+        if (repo.findByName(prod.getName()).isPresent()) {
+            throw new RuntimeException("Product with name '" + prod.getName() + "' already exists.");
+        }
+        return repo.save(prod);
     }
 
-    public void updateProduct(Product prod) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProdId() == prod.getProdId()) {
-                products.set(i, prod);
-                return;
-            }
-        }
-        throw new RuntimeException("Product not found with id: " + prod.getProdId());
+    public Product updateProduct(int id, Product updatedProd) {
+        Product existingProduct = getProductById(id);
+
+        existingProduct.setCategory(updatedProd.getCategory());
+        existingProduct.setName(updatedProd.getName());
+        existingProduct.setDescription(updatedProd.getDescription());
+        existingProduct.setPrice(updatedProd.getPrice());
+        existingProduct.setAvailable(updatedProd.isAvailable());
+        existingProduct.setQuantity(updatedProd.getQuantity());
+
+        return repo.save(existingProduct);
     }
 
     public void deleteProduct(int prodId) {
-        boolean removed = products.removeIf(p -> p.getProdId() == prodId);
-        if (!removed) {
-            throw new RuntimeException("Product not found with id: " + prodId);
+        if (!repo.existsById(prodId)) {
+            throw new RuntimeException("Cannot delete: Product with id " + prodId + " does not exist.");
         }
+        repo.deleteById(prodId);
     }
 }

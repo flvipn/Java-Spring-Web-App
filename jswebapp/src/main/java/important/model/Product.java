@@ -1,35 +1,33 @@
 package important.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Product {
 
-    private int prodId;
-    private String prodName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column(length = 500)
+    private String description;
+
+    @Column(nullable = false)
     private double price;
 
-    public Product(int i, String s, double v) {
-        this.prodId = i;
-        this.prodName = s;
-        this.price = v;
-    }
+    private boolean available;
 
-    public double getPrice() {
-        return price;
-    }
-
-    public String getProdName() {
-        return prodName;
-    }
-
-    public int getProdId() {
-        return prodId;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "prodId=" + prodId +
-                ", prodName='" + prodName + '\'' +
-                ", price=" + price +
-                '}';
-    }
+    @Column(nullable = false)
+    private int quantity;
 }

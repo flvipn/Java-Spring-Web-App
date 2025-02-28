@@ -2,6 +2,8 @@ package important.controller;
 
 import important.model.Product;
 import important.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +19,29 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getProducts() {
-        return service.getProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        return ResponseEntity.ok(service.getProducts());
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable int id) {
-        return service.getProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+        return ResponseEntity.ok(service.getProductById(id));
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product prod) {
-        service.addProduct(prod);
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product prod) {
+        Product savedProduct = service.addProduct(prod);
+        return ResponseEntity.status(201).body(savedProduct);
     }
 
-    @PutMapping
-    public void updateProduct(@RequestBody Product prod) {
-        service.updateProduct(prod);
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @Valid @RequestBody Product prod) {
+        return ResponseEntity.ok(service.updateProduct(id, prod));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable int id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         service.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }
