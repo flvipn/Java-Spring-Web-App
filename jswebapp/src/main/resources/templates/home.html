@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Sneakers Shop</a>
@@ -28,17 +28,17 @@
     </div>
 </nav>
 
-<!-- Filter & Search Section -->
+<!-- filter&search -->
 <div class="container mt-4">
     <div class="row">
-        <!-- Search Bar -->
+
         <div class="col-md-6">
             <form id="searchForm" class="d-flex mb-3">
                 <input class="form-control me-2" type="search" id="searchInput" placeholder="Search sneakers...">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
-        <!-- Filter by Brand -->
+
         <div class="col-md-6 text-end">
             <label for="brandFilter" class="form-label text-dark fw-bold">Filter by brand:</label>
             <select id="brandFilter" class="form-select w-50 d-inline-block">
@@ -50,12 +50,13 @@
     </div>
 </div>
 
-<!-- Product List -->
+<!-- products -->
 <div class="container mt-5">
     <h2 class="text-center">Available Sneakers</h2>
     <div class="row" id="productList">
         <div class="col-md-4" th:each="product : ${products}">
-            <div class="card mb-4 shadow-sm">
+            <div class="card mb-4 shadow-sm"
+                 th:attr="data-brand=${product.brand}, data-name=${product.name}">
                 <a th:href="@{'/products/' + ${product.id}}">
                     <img th:src="${product.thumbnail} ?: '/images/default.jpg'" class="card-img-top" alt="Sneaker Image">
                 </a>
@@ -72,10 +73,10 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- JS: Filter by Brand & Search -->
+<!-- JS: brand&searchbar -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const brandFilter = document.getElementById("brandFilter");
@@ -90,7 +91,7 @@
                 let productBrand = product.getAttribute("data-brand").toLowerCase();
                 let productName = product.getAttribute("data-name").toLowerCase();
 
-                let matchesBrand = selectedBrand === "" || productBrand === selectedBrand;
+                let matchesBrand = selectedBrand === "" || productBrand.includes(selectedBrand);
                 let matchesSearch = searchTerm === "" || productName.includes(searchTerm);
 
                 if (matchesBrand && matchesSearch) {
@@ -101,12 +102,10 @@
             });
         }
 
-        // Evenimente pentru Search și Filter
         brandFilter.addEventListener("change", filterProducts);
         searchInput.addEventListener("keyup", filterProducts);
     });
 </script>
-
 
 </body>
 </html>
