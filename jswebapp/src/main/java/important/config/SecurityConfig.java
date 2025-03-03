@@ -42,6 +42,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login", "/", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
@@ -52,10 +53,10 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // Aceasta este ruta unde se face logout
-                        .logoutSuccessUrl("/login?logout") // După logout, redirecționează spre login
-                        .invalidateHttpSession(true) // Șterge sesiunea
-                        .deleteCookies("JSESSIONID") // Șterge cookie-urile pentru sesiune
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 

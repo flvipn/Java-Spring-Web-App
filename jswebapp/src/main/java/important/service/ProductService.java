@@ -31,7 +31,7 @@ public class ProductService {
             throw new RuntimeException("Product with name '" + prod.getName() + "' already exists.");
         }
         if (prod.getThumbnail() == null || prod.getThumbnail().isEmpty()) {
-            prod.setThumbnail("/images/default.jpg"); // Imagine default
+            prod.setThumbnail("/images/default.jpg");
         }
         return repo.save(prod);
     }

@@ -52,7 +52,7 @@ public class ProductController {
     public String getProductById(@PathVariable int id, Model model) {
         Product product = service.getProductById(id);
         model.addAttribute("product", product);
-        return "product"; // Redirecționează către product.html
+        return "product";
     }
 
 

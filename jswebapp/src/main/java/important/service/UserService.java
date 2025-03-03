@@ -41,10 +41,10 @@ public class UserService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            System.out.println("DB Password: " + user.getPassword()); // Debugging
-            System.out.println("Input Password: " + passwordEncoder.encode(password)); // Debugging
+            System.out.println("DB Password: " + user.getPassword());
+            System.out.println("Input Password: " + passwordEncoder.encode(password));
 
-            if (passwordEncoder.matches(password, user.getPassword())) {  // ← Aici verifică hash-ul!
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 return Optional.of(user);
             } else {
                 System.out.println("Passwords do NOT match!");

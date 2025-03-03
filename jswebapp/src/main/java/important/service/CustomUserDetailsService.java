@@ -28,11 +28,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = userOpt.get();
 
-        System.out.println("User found: " + user.getEmail()); // Log pentru debug
+        System.out.println("User found: " + user.getEmail());
 
         UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getEmail());
         builder.password(user.getPassword());
-        builder.roles("USER"); // Poți adăuga roluri aici
+        builder.roles("USER");
 
         return builder.build();
     }
