@@ -52,8 +52,10 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutUrl("/logout") // Aceasta este ruta unde se face logout
+                        .logoutSuccessUrl("/login?logout") // După logout, redirecționează spre login
+                        .invalidateHttpSession(true) // Șterge sesiunea
+                        .deleteCookies("JSESSIONID") // Șterge cookie-urile pentru sesiune
                         .permitAll()
                 );
 
