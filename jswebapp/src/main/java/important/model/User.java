@@ -13,7 +13,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
+    @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
     private UUID id;
 
     @Column(nullable = false, unique = true)
